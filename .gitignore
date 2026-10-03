@@ -1,0 +1,16 @@
+# --- Never commit ---
+# Production DB dump (331 MB, contains all user data)
+/bxjtnntsrg_*.sql
+
+# Local reference doc (documents infrastructure details + old credentials)
+/skill-SnsMedica.md
+
+# Cloudways placeholder page (not part of the Drupal app)
+/index.php
+
+# Local-only Drupal overrides (verbose errors, caches off)
+sns/web/sites/default/settings.local.php
+
+# OS cruft
+Thumbs.db
+.DS_Store

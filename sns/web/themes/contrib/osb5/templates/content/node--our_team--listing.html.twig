@@ -1,0 +1,31 @@
+<!-- Button trigger modal -->
+{# <a class="wrap" href="#" type="button" data-bs-toggle="modal" data-bs-target="#teamModal_{{ node.id() }}"> #}
+<div class="wrap">
+	<div class="image">{{ content.field_image.0 }}</div>
+  <div class="title">{{ node.label() }}</div>
+  <div class="position">{{ content.field_position.0 }}</div>
+</div>
+{# </a> #}
+
+<!-- Modal -->
+<div class="modal fade" id="teamModal_{{ node.id() }}" tabindex="-1" aria-labelledby="teamModal_{{ node.id() }}Label" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="team-wrapper">
+        	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        	<div class="row">
+        		<div class="col-12 col-md-4">
+        			<div class="team-img">{{ content.field_image.0 }}</div>
+        		</div>
+        		<div class="col-12 col-md-8">
+        			<h3>{{ node.label() }}</h3>
+        			<div class="team-position">{{ content.field_position.0 }}</div>
+        			<div class="team-body">{{ content.body.0 }}</div>
+        		</div>
+        	</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

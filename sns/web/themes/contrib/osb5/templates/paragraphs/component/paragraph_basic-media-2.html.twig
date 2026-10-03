@@ -1,0 +1,10 @@
+{% if img2 %}
+<div class="para-img">
+  <img src="{{ file_url(img2['#item'].entity.uri.value) }}" alt="{{ img2['#item'].alt }}" class="img-fluid">
+</div>
+{% endif %}
+{% if video2 %}
+<div class="para-vid">
+  {{ video2 }}
+</div>
+{% endif %}

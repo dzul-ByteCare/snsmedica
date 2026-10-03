@@ -1,0 +1,9 @@
+<a href="{{ link['#url'] }}" class="btn-os mx-auto"{{ link['#options'].external == 'true' ? ' target="_blank"' }}>{% spaceless %}
+  {% if link['#title']|first == '/' %}
+    Read More
+  {% elseif link['#title'] is not empty %}
+    {{ link['#title'] }}
+  {% else %}
+    Read More
+  {% endif %}
+{% endspaceless %}</a>

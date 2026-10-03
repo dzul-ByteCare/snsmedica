@@ -1,0 +1,69 @@
+{% set uniqueName = 'view_reference_' %}
+
+{% set subtitle = content.field_subtitle.0['#context'].value %}
+{% set title = content.field_title.0['#context'].value %}
+{% set body = content.field_content.0 %}
+
+{% set bgColor = content.field_bg_color.0 %}
+{% set bgImage = content.field_bg_img.0 %}
+{% set fullwidth = content.field_fullwidth.0['#markup'] %}
+{% set cssClass = content.field_css_class.0['#context'].value %}
+{% set view_reference = content.field_view_reference.0 %}
+
+{% if fullwidth == 1 %}
+  {% set containerClass = "container-fluid" %}
+{% else %}
+  {% set containerClass = "container" %}
+{% endif %}
+
+
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--view-reference',
+    'merge-next' not in cssClass ? 'position-relative',
+    cssClass
+  ]
+%}
+{% block paragraph %}
+<div{{ attributes.addClass(classes) }} id="{{ uniqueName }}{{ paragraph.id() }}">
+  {% block content %}
+
+    {% if 'merge-next' not in cssClass and (bgColor or bgImage) %}
+    <div class="para-bg position-absolute top-0 start-0 w-100 h-100">
+      {% include directory ~ '/templates/paragraphs/component/paragraph_basic-bg.html.twig' %}
+    </div>
+    {% endif %}
+
+    <div class="para-wrap">
+      <div class="{{ containerClass }}">
+
+        {% if title or body %}
+        <div class="para-general">
+          {% include directory ~ '/templates/paragraphs/component/paragraph_basic-content.html.twig' %}
+        </div>
+        {% endif %}
+
+        {% if view_reference %}
+        <div class="views-reference">
+          {{ view_reference }}
+        </div>
+        {% endif %}
+
+      </div>
+    </div>
+
+  {% endblock %}
+</div>
+{% endblock paragraph %}
+
+{% if 'merge-next' not in cssClass and bgColor %}
+{% include directory ~ '/templates/paragraphs/style/paragraph_basic-bg.html.twig' %}
+{% endif %}
+
+
+{#<script>
+  console.log( {{ content|json_encode|raw }} )
+</script>#}
+
+

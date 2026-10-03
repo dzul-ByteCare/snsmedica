@@ -1,0 +1,54 @@
+<article{{ attributes }}>
+{% for key, item in content if key|first != '#' %}
+  {% if key == "body" %}
+
+    {# Note: if there are body in content type(page), body will appear above all paragraphs #}
+    {% if content.body.0 is not empty %}
+      <div class="content-body"><div class="container">{{ item }}</div></div>
+    {% endif %}
+
+  {% elseif key == "field_paragraphs" %}
+
+    {# <paragraphLoop> #}
+    {% for index, para in item if index|first != '#' %}
+
+      {# VAR: bundle #}
+      {% set bundle = para['#paragraph'].bundle %}
+
+      {# <paragraphWrapper> #}
+      {% if 'merge-next' in content.field_paragraphs[ index ]['#paragraph'].field_css_class.value %}
+      <div class="content-row crMerge position-relative" id="para-{{ para['#paragraph'].id.value }}">
+      {% elseif 'merge-next' not in content.field_paragraphs[ index - 1 ]['#paragraph'].field_css_class.value %}
+      <div class="content-row cr{{ bundle|title|trim|replace({'-' : '', '_' : ''}) }}" id="para-{{ para['#paragraph'].id.value }}">
+      {% endif %}
+
+        {# <background> #}
+        {% set bgColor = content.field_paragraphs[ index ]['#paragraph'].field_bg_color.value %}
+        {% set bgImage = content.field_paragraphs[ index ]['#paragraph'].field_bg_img.entity.fileuri %}
+        {% set bgImageAlt = content.field_paragraphs[ index ]['#paragraph'].field_bg_img.get(0).alt %}
+        {% set bgColor2 = content.field_paragraphs[ index + 1 ]['#paragraph'].field_bg_color.value %}
+        {% set bgImage2 = content.field_paragraphs[ index + 1 ]['#paragraph'].field_bg_img.entity.fileuri %}
+        {% set bgImageAlt2 = content.field_paragraphs[ index + 1 ]['#paragraph'].field_bg_img.get(0).alt %}
+
+        {% if 'merge-next' in content.field_paragraphs[ index ]['#paragraph'].field_css_class.value and ((bgColor or bgImage) or (bgColor2 or bgImage2)) %}
+        <div class="para-bg position-absolute top-0 start-0 w-100 h-100">
+          {% include directory ~ '/templates/paragraphs/component/node_basic-bg.html.twig' %}
+        </div>
+        {% endif %}
+        {# </background> #}
+
+        {# <paragraphContent> #}
+        {{ para }}
+        {# </paragraphContent> #}
+
+      {% if 'merge-next' not in content.field_paragraphs[ index ]['#paragraph'].field_css_class.value %}
+      </div>
+      {% endif %}
+      {# </paragraphWrapper> #}
+
+    {% endfor %}
+    {# </paragraphLoop> #}
+
+  {% endif %}
+{% endfor %}
+</article>

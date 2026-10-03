@@ -1,0 +1,130 @@
+{% set uniqueName = 'gallery_' %}
+{% set title = content.field_title.0['#context'].value %}
+{% set body = content.field_content.0 %}
+{% set images = content.field_images %}
+{% set fullwidth = content.field_fullwidth.0['#markup'] %}
+{% set cssClass = content.field_css_class.0['#context'].value %}
+
+
+{% if fullwidth == 1 %}
+  {% set containerClass = "container-fluid" %}
+{% else %}
+  {% set containerClass = "container" %}
+{% endif %}
+
+{{ attach_library('osb5/swiper') }}
+
+
+{%
+  set classes = [
+    'paragraph',
+    'paragraph-gallery',
+    'merge-next' not in cssClass ? 'position-relative',
+    cssClass
+  ]
+%}
+
+{% block paragraph %}
+  <div{{ attributes.addClass(classes) }} id="{{ uniqueName }}{{ paragraph.id() }}">
+    {% block content %}
+
+    {% if 'merge-next' not in cssClass and (bgColor or bgImage) %}
+    <div class="para-bg position-absolute top-0 start-0 w-100 h-100">
+      {% include directory ~ '/templates/paragraphs/component/paragraph_basic-bg.html.twig' %}
+    </div>
+    {% endif %}
+
+    <div class="para-wrap overflow-hidden">
+      <div class="{{ containerClass }}">
+        <div class="row align-items-center">
+          <div class="col-md-6 col-12">
+            {# images #}
+            {% if images.0 %}
+            
+              <div dir="rtl" class="swiper swiperGallery">
+                <div class="swiper-wrapper">
+                  {% for key, item in images if key|first != "#" %}
+                    <div class="swiper-slide">{{ item }}</div>     
+                  {% endfor %}
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+
+
+              {#<div class="swiper-arrows">
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+              </div>#}
+            {% endif %}
+            {# images #}
+          </div>
+          <div class="col-xl-4 col-md-6 col-12 ms-auto">
+            {% if title or body %}
+            <div class="para-general">
+              {% include directory ~ '/templates/paragraphs/component/paragraph_basic-content.html.twig' %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endblock %}
+  </div>
+{% endblock paragraph %}
+
+{% if 'merge-next' not in cssClass and bgColor %}
+{% include directory ~ '/templates/paragraphs/style/paragraph_basic-bg.html.twig' %}
+{% endif %}
+
+
+{#<script>
+  console.log( {{ content|json_encode|raw }} )
+</script>#}
+
+{% if images.0 %}
+<script>
+  const swiperGallery = new Swiper('#{{ uniqueName }}{{ paragraph.id() }} .swiperGallery', {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      autoHeight: true,
+      navigation: {
+        nextEl: "#{{ uniqueName }}{{ paragraph.id() }} .swiper-button-next",
+        prevEl: "#{{ uniqueName }}{{ paragraph.id() }} .swiper-button-prev",
+      },
+      pagination: {
+        el: "#{{ uniqueName }}{{ paragraph.id() }} .swiper-pagination",
+        clickable: true,
+      },
+    });
+</script>
+
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

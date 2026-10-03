@@ -1,0 +1,17 @@
+{% if bgImage %}
+<div class="bg-img position-absolute top-0 start-0 w-100 h-100 overflow-hidden">
+  <img src="{{ file_url(bgImage) }}" alt="{{ bgImageAlt }}" class="w-100 h-100">
+</div>
+{% elseif bgImage2 %}
+<div class="bg-img position-absolute top-0 start-0 w-100 h-100 overflow-hidden">
+  <img src="{{ file_url(bgImage2) }}" alt="{{ bgImageAlt2 }}" class="w-100 h-100">
+</div>
+{% endif %}
+
+{% if bgColor %}
+<div class="bg-color position-absolute top-0 start-0 w-100 h-100"></div>
+{% include directory ~ '/templates/paragraphs/style/node_basic-bg.html.twig' %}
+{% elseif bgColor2 %}
+<div class="bg-color position-absolute top-0 start-0 w-100 h-100"></div>
+{% include directory ~ '/templates/paragraphs/style/node_basic-bg.html.twig' %}
+{% endif %}

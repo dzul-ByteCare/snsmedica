@@ -1,0 +1,5 @@
+# Deployment scripts and Docker files must keep LF line endings
+# (they run on Linux inside the container; CRLF breaks shell scripts).
+deploy/* text eol=lf
+Dockerfile text eol=lf
+.dockerignore text eol=lf

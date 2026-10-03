@@ -1,0 +1,204 @@
+{% set uniqueName = 'tab_accordion_' %}
+
+{% set activateAccordion = content.field_change_accordion.0['#markup'] %}
+{% set tabAccorItem = content.field_tab_accordion_item %}
+
+{% set bgColor = content.field_bg_color.0 %}
+{% set bgImage = content.field_bg_img.0 %}
+{% set fullwidth = content.field_fullwidth.0['#markup'] %}
+{% set cssClass = content.field_css_class.0['#context'].value %}
+
+{% if fullwidth == 1 %}
+  {% set containerClass = "container-fluid" %}
+{% else %}
+  {% set containerClass = "container" %}
+{% endif %}
+
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished'
+  ]
+%}
+{% block paragraph %}
+<div{{ attributes.addClass(classes) }} id="{{ uniqueName }}{{ paragraph.id() }}">
+  {% block content %}
+
+    {% if 'merge-next' not in cssClass and (bgColor or bgImage) %}
+    <div class="para-bg position-absolute top-0 start-0 w-100 h-100">
+      {% include directory ~ '/templates/paragraphs/component/paragraph_basic-bg.html.twig' %}
+    </div>
+    {% endif %}
+
+    {% if tabAccorItem.0 %}
+    <div class="para-wrap">
+      <div class="{{ containerClass }}">
+
+        {% if activateAccordion != 0 %}
+        {# < Accordion > #}
+        <div class="accordion" id="accordion_{{ paragraph.id() }}">
+          {% for key, item in tabAccorItem if key|first != '#' %}
+            {% set paraTitle = item['#paragraph'].field_tab_title.value %}
+            {% set paraContent = item['#paragraph'].field_content.value %}
+            {% set paraImg = item['#paragraph'].field_image.entity.fileuri %}
+            {% set paraLink = item['#paragraph'].field_link.get(0).getUrl().toString() %}
+
+            {% if paraContent or paraImg or paraLink %}
+            <div class="accordion-item">
+              <div id="heading_{{ paragraph.id() }}_{{key}}" class="accordion-header">
+                <button class="accordion-button{{ not loop.first ? ' collapsed' }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{ paragraph.id() }}_{{key}}" aria-expanded="{{ loop.first ? 'true' : 'false' }}" aria-controls="collapse_{{ paragraph.id() }}_{{key}}">{{ paraTitle }}</button>
+              </div>
+              <div id="collapse_{{ paragraph.id() }}_{{key}}" class="accordion-collapse collapse{{ loop.first ? ' show' }}" aria-labelledby="heading_{{ paragraph.id() }}_{{key}}" data-bs-parent="#accordion_{{ paragraph.id() }}">
+                <div class="accordion-body">
+                  <div class="row">
+
+                    {% if (paraContent and paraImg is empty) or (paraContent is empty and paraImg) %}
+                      {% set column_class = 'col-12' %}
+                    {% elseif paraContent and paraImg %}
+                      {% set column_class = 'col-md-6' %}
+                    {% endif %}
+                    
+                    {# < Image > #}
+                    {% if paraImg %}
+                    <div class="{{ column_class }}">
+                      <div class="accordion-img">
+                        <img src="{{ file_url(paraImg) }}" alt="{{ item['#paragraph'].field_image_only.get(0).alt }}" class="img-fluid">
+                      </div>
+                    </div>
+                    {% endif %}
+                    {# < / Image > #}
+
+                    {# < Body > #}
+                    {% if paraContent %}
+                    <div class="{{ column_class }}">
+                      <div class="accordion-body">
+                        {{ paraContent|raw }}
+                      </div>
+                    </div>
+                    {% endif %}
+                    {# < / Body > #}
+
+                    {# < Link > #}
+                    {% if paraLink %}
+                    <div class="col-12">
+                    {% include directory ~ '/templates/paragraphs/component/paragraph_inner-field_link.html.twig' %}
+                    </div>
+                    {% endif %}
+                    {# < / Link > #}
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+        {# < / Accordion > #}
+        {% else %}
+        {# < Tab > #}
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab_{{ paragraph.id() }}" role="tablist">
+          {% for key, item in tabAccorItem if key|first != '#' %}
+            {% set paraTitle = item['#paragraph'].field_tab_title.value %}
+            {% set paraContent = item['#paragraph'].field_content.value %}
+            {% set paraImg = item['#paragraph'].field_image.entity.fileuri %}
+            {% set paraLink = item['#paragraph'].field_link.get(0).getUrl().toString() %}
+
+            {% if paraContent or paraImg or paraLink %}
+            <button class="nav-link{{ loop.first ? ' active' }}" id="nav-tab_{{ paragraph.id() }}_{{key}}" data-bs-toggle="tab" data-bs-target="#nav_{{ paragraph.id() }}_{{key}}" type="button" role="tab" aria-controls="nav_{{ paragraph.id() }}_{{key}}" aria-selected="{{ loop.first ? 'true' : 'false' }}">{{ paraTitle }}</button>
+            {% endif %}
+          {% endfor %}
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent_{{ paragraph.id() }}">
+        {% for key, item in tabAccorItem if key|first != '#' %}
+          {% set paraContent = item['#paragraph'].field_content.value %}
+          {% set paraImg = item['#paragraph'].field_image.entity.fileuri %}
+          {% set paraLink = item['#paragraph'].field_link.get(0).getUrl().toString() %}
+
+          {% if paraContent or paraImg or paraLink %}
+          <div class="tab-pane fade{{ loop.first ? ' show active' }}" id="nav_{{ paragraph.id() }}_{{key}}" role="tabpanel" aria-labelledby="nav-tab_{{ paragraph.id() }}_{{key}}">
+            <div class="row">
+
+              {% if (paraContent and paraImg is empty) or (paraContent is empty and paraImg) %}
+                {% set column_class = 'col-12' %}
+              {% elseif paraContent and paraImg %}
+                {% set column_class = 'col-md-6' %}
+              {% endif %}
+
+              {# < Image > #}
+              {% if paraImg %}
+              <div class="{{ column_class }}">
+                <div class="accordion-img">
+                  <img src="{{ file_url(paraImg) }}" alt="{{ item['#paragraph'].field_image_only.get(0).alt }}" class="img-fluid">
+                </div>
+              </div>
+              {% endif %}
+              {# < / Image > #}
+
+              {# < Body > #}
+              {% if paraContent %}
+              <div class="{{ column_class }}">
+                <div class="accordion-body">
+                  {{ paraContent|raw }}
+                </div>
+              </div>
+              {% endif %}
+              {# < / Body > #}
+
+              {# < Link > #}
+              {% if paraLink %}
+              <div class="col-12">
+              {% include directory ~ '/templates/paragraphs/component/paragraph_inner-field_link.html.twig' %}
+              </div>
+              {% endif %}
+              {# < / Link > #}
+
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+        </div>
+        {# < / Tab > #}
+        {% endif %}
+
+      </div>
+    </div>
+    {% endif %}
+  {% endblock %}
+</div>
+{% endblock paragraph %}
+
+
+{#<script>
+  console.log( {{ content|json_encode|raw }} )
+</script>#}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

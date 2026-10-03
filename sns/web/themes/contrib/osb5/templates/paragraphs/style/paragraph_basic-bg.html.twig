@@ -1,0 +1,10 @@
+<style>
+#{{ uniqueName }}{{ paragraph.id() }} .bg-color {
+  background-color: {{ bgColor['#context'].value }};
+}
+{% if bgImage and bgColor %}
+#{{ uniqueName }}{{ paragraph.id() }} .bg-color {
+  mix-blend-mode: multiply;
+}
+{% endif %}
+</style>

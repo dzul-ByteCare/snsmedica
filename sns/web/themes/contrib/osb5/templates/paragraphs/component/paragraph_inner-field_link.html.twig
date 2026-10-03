@@ -1,0 +1,11 @@
+<div class="link{{ item['#paragraph'].field_title.value or item['#paragraph'].field_description.value ? ' mt-auto' }}">
+  <a href="{{ item['#paragraph'].field_link.get(0).getUrl().toString() }}" class="btn-os mx-auto"{{ item['#paragraph'].field_link.get(0).getUrl().isExternal() == 'true' ? ' target="_blank"' }}>{% spaceless %}
+    {% if item['#paragraph'].field_link.title|first == '/' %}
+      Read More
+    {% elseif item['#paragraph'].field_link.title is not empty %}
+      {{ item['#paragraph'].field_link.title }}
+    {% else %}
+      Read More
+    {% endif %}
+  {% endspaceless %}</a>
+</div>

@@ -1,0 +1,65 @@
+:root {
+	font-size: 16px;
+	/* Color */
+	--white: #FFFFFF;
+	--dark: #000000;
+	--black: #4A494A;
+	--paleGreen: #EEF8F7;
+	--lightGreen: #50D8BE;
+	--green: #38B09D;
+	--darkGreen: #287F6E;
+	--gradientA: linear-gradient(180deg, rgba(210,236,230,1) 0%, rgba(255,255,255,1) 100%);
+	--gradientB: linear-gradient(180deg, rgba(243,250,249,1) 0%, rgba(223,244,239,1) 100%);
+/*	--grey: #7E7E7E;
+	--purple: #8e9ace;*/
+	/* Font	*/
+	--font-h1: 2.25rem; /* 36px */
+	--font-h2: 2rem; /* 32px */
+	--font-h3: 1.75rem; /* 28px */
+	--font-h4: 1.5rem; /* 24px */
+	--font-h5: 1.125rem; /* 18px */
+	--font-h6: 1rem; /* 16px */
+	--font-s: .875rem; /* 14px */
+	--font-xs: .75rem; /* 12px */
+	/* Font Weight */
+	--fw-regular: 400;  /* normal */
+	--fw-semiBold: 600;  /* semi bold */
+	--fw-bold: 800;  /* bold */
+	--fw-black: 900;  /* heavy */
+	--transition: all .3s ease;
+	--para-py: 30px;
+	--font-Brooklyn: 'Brooklyn';
+	--shadow: 0 3px 6px rgb(0 0 0 / 16%);
+}
+
+@media (min-width: 576px) {
+	:root {
+		--para-py: 30px;
+	}
+}
+@media (min-width: 768px) {
+	:root {
+		--para-py: 30px;
+	}
+}
+@media (min-width: 992px) {
+	:root {
+		--para-py: 30px;
+		--font-h1: 3.125rem; /* 50px */
+		--font-h2: 2.5rem; /* 40px */
+	}
+}
+@media (min-width: 1200px) {
+	:root {
+		--para-py: 50px;
+		--font-h1: 3.125rem; /* 50px */
+		--font-h2: 2.5rem; /* 40px */
+	}
+}
+@media (min-width: 1400px) {
+	:root {
+		--para-py: 50px;
+		--font-h1: 3.125rem; /* 50px */
+		--font-h2: 2.5rem; /* 40px */
+	}
+}

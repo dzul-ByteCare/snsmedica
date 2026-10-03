@@ -1,0 +1,153 @@
+{% set uniqueName = 'two_col_' %}
+
+{% set title = content.field_title.0['#context'].value %}
+{% set body = content.field_content.0 %}
+{% set img = content.field_image.0 %}
+{% set img_alt = content.field_image['#items'].alt %}
+{# {% set video = content.field_video.0 %} #}
+
+{% set title2 = content.field_title_2.0['#context'].value %}
+{% set body2 = content.field_content_2.0 %}
+{% set img2 = content.field_image_2.0 %}
+{% set img2_alt = content.field_image_2['#items'].alt %}
+{# {% set video2 = content.field_video_2.0 %} #}
+
+{% set link = content.field_link.0 %}
+{% set bgColor = content.field_bg_color.0 %}
+{% set bgImage = content.field_bg_img.0 %}
+{% set fullwidth = content.field_fullwidth.0['#markup'] %}
+{% set cssClass = content.field_css_class.0['#context'].value %}
+{% set switchPosition = content.field_switch_position.0['#markup'] %}
+
+{% if fullwidth == 1 %}
+  {% set containerClass = "container-fluid" %}
+{% else %}
+  {% set containerClass = "container" %}
+{% endif %}
+
+{% if (title or body or img or video) and (title2 or body2 or img2 or video2) %}
+  {% set colClass = ' col-md-6' %}
+{% else %}
+  {% set colClass = ' col-12' %}
+{% endif %}
+
+
+
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--two-col',
+    'merge-next' not in cssClass ? 'position-relative',
+    cssClass
+  ]
+%}
+{% block paragraph %}
+<div{{ attributes.addClass(classes) }} id="{{ uniqueName }}{{ paragraph.id() }}">
+  {% block content %}
+
+    {% if 'merge-next' not in cssClass and (bgColor or bgImage) %}
+    <div class="para-bg position-absolute top-0 start-0 w-100 h-100">
+      {% include directory ~ '/templates/paragraphs/component/paragraph_basic-bg.html.twig' %}
+    </div>
+    {% endif %}
+
+    <div class="para-wrap">
+      <div class="{{ containerClass }}">
+        <div class="row{{ switchPosition == 1 ? ' flex-column-reverse flex-md-row-reverse' }}">
+
+          {% if title or body or img or video %}
+          <div class="para-col-one{{ colClass }}">
+            {% if title or body %}
+            <div class="para-general">
+              {% include directory ~ '/templates/paragraphs/component/paragraph_basic-content.html.twig' %}
+            </div>
+            {% endif %}
+
+            {% if img or video %}
+            <div class="para-media">
+              {% include directory ~ '/templates/paragraphs/component/paragraph_basic-media.html.twig' %}
+            </div>
+            {% endif %}
+
+            {% if link and (title or body) and (title2 or body2) is empty %}
+            <div class="para-link">
+              {% include directory ~ '/templates/paragraphs/component/field_link.html.twig' %}
+            </div>
+            {% endif %}
+          </div>
+          {% endif %}
+
+          {% if title2 or body2 or img2 or video2 %}
+          <div class="para-col-two{{ colClass }}">
+            {% if title2 or body2 %}
+            <div class="para-general">
+              {% include directory ~ '/templates/paragraphs/component/paragraph_basic-content-2.html.twig' %}
+            </div>
+            {% endif %}
+
+            {% if img2 or video2 %}
+            <div class="para-media">
+              {% include directory ~ '/templates/paragraphs/component/paragraph_basic-media-2.html.twig' %}
+            </div>
+            {% endif %}
+
+            {% if link and (title2 or body2) and (title or body) is empty %}
+            <div class="para-link">
+              {% include directory ~ '/templates/paragraphs/component/field_link.html.twig' %}
+            </div>
+            {% endif %}
+          </div>
+          {% endif %}
+
+          {% if link and (title2 or body2) and (title or body) %}
+          <div class="para-row-link col-12">
+            <div class="para-link">
+              {% include directory ~ '/templates/paragraphs/component/field_link.html.twig' %}
+            </div>
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+
+  {% endblock %}
+</div>
+{% endblock paragraph %}
+
+{% if 'merge-next' not in cssClass and bgColor %}
+{% include directory ~ '/templates/paragraphs/style/paragraph_basic-bg.html.twig' %}
+{% endif %}
+
+{#}
+<script>
+  console.log( {{ content|json_encode|raw }} )
+</script>
+{#}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

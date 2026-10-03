@@ -1,0 +1,20 @@
+global-styling:
+  css:
+    theme:
+      vendor/fontawesome/css/all.min.css: {}
+      css/style.css: {}
+      css/osb5.css: {}
+  js:
+    vendor/fontawesome/js/all.min.js: { attributes: { defer: true, async: true } }
+    js/scripts.js: {}
+  dependencies:
+    - core/jquery
+swiper:
+  header: TRUE
+  css:
+    theme:
+      vendor/swiper/swiper-bundle.min.css: {}
+  js:
+    vendor/swiper/swiper-bundle.min.js: {}
+  dependencies:
+    - core/jquery

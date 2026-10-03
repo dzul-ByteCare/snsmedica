@@ -1,0 +1,192 @@
+{% set uniqueName = 'img_list_' %}
+  
+{% set itemPerRow = content.field_items_per_row.0['#markup'] %}
+{% set enable_slider = content.field_enable_slider.0['#markup'] %}
+
+{% set title = content.field_title.0 %}
+{% set body = content.field_content.0 %}
+{% set link = content.field_link.0 %}
+{% set bgColor = content.field_bg_color.0 %}
+{% set bgImage = content.field_bg_img.0 %}
+{% set fullwidth = content.field_fullwidth.0['#markup'] %}
+{% set cssClass = content.field_css_class.0['#context'].value %}
+
+{% if fullwidth == 1 %}
+  {% set containerClass = "container-fluid" %}
+{% else %}
+  {% set containerClass = "container" %}
+{% endif %}
+
+{% if itemPerRow == 6 %}
+  {% set column_class = 'col-xl-2 col-lg-1-5 col-md-3 col-sm-4 col-6' %}
+{% elseif itemPerRow == 5 %}
+  {% set column_class = 'col-xl-1-5 col-lg-3 col-md-4 col-6' %}
+{% elseif itemPerRow == 4 %}
+  {% set column_class = 'col-lg-3 col-md-4 col-sm-6 col-12' %}
+{% elseif itemPerRow == 3 %}
+  {% set column_class = 'col-lg-4 col-md-6 col-12' %}
+{% elseif itemPerRow == 2 %}
+  {% set column_class = 'col-lg-6 col-12' %}
+{% elseif itemPerRow == 1 %}
+  {% set column_class = 'col-12' %}
+{% endif %}
+
+{{ attach_library('osb5/swiper') }}
+
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--img-list',
+    'merge-next' not in cssClass ? 'position-relative',
+    enable_slider == 'On' ? 'styleB',
+    cssClass
+  ]
+%}
+{% block paragraph %}
+<div{{ attributes.addClass(classes) }} id="{{ uniqueName }}{{ paragraph.id() }}">
+  {% block content %}
+
+    {% if 'merge-next' not in cssClass and (bgColor or bgImage) %}
+    <div class="para-bg position-absolute top-0 start-0 w-100 h-100">
+      {% include directory ~ '/templates/paragraphs/component/paragraph_basic-bg.html.twig' %}
+    </div>
+    {% endif %}
+
+    {% if content.field_items_img_list_w_desc.0 %}
+    <div class="para-wrap">
+      <div class="{{ containerClass }}">
+
+        {% if title or body %}
+        <div class="para-general">
+          {% if title %}
+            <h2 class="para-title">{{ title }}</h2>
+          {% endif %}
+          {% if body %}
+            <div class="para-body">{{ body }}</div>
+          {% endif %}
+        </div>
+        {% endif %}
+
+        {% if enable_slider == 'On' %}
+          <div class="swiper-arrows">
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+          </div>
+          {#<div class="swiper-pagination"></div>#}
+  
+        <div class="swiperItem swiper">
+        {% endif %}
+
+          <div class="{{ enable_slider == 'On' ? 'swiper-wrapper' : 'row' }}">
+            {% for key, item in content.field_items_img_list_w_desc if key|first != '#' %}
+            {% if enable_slider == 'On' %}
+              <div class="swiper-slide mb-4">
+            {% else %}
+              <div class="{{ column_class }} mb-4">
+            {% endif %}
+              <div class="wrap d-flex flex-column">
+
+                {% if item['#paragraph'].field_image.entity.fileuri or item['#paragraph'].field_title.value %}
+                <div class="img-title-wrap">
+                
+
+                  {% if item['#paragraph'].field_image.entity.fileuri %}
+                  <div class="image">
+                    <img src="{{ file_url(item['#paragraph'].field_image.entity.fileuri) }}" alt="{{ item['#paragraph'].field_image.get(0).alt }}" class="img-fluid">
+                  </div>
+                  {% endif %}
+                  {% if item['#paragraph'].field_title.value  %}
+                    <h3 class="title">{{ item['#paragraph'].field_title.value }}</h3>
+                  {% endif %}
+
+                </div>
+                {% endif %}
+                
+                {% if item['#paragraph'].field_description.value %}
+                  <div class="body">{{ item['#paragraph'].field_description.value|raw }}</div>
+                {% endif %}
+
+                {% if item['#paragraph'].field_link.get(0).getUrl().toString() %}
+                {% include directory ~ '/templates/paragraphs/component/paragraph_inner-field_link.html.twig' %}
+                {% endif %}
+
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        {% if enable_slider == 'On' %}
+        </div>
+        {% endif %}
+
+
+      </div>
+    </div>
+    {% endif %}
+
+  {% endblock %}
+</div>
+{% endblock paragraph %}
+
+{% if 'merge-next' not in cssClass and bgColor %}
+{% include directory ~ '/templates/paragraphs/style/paragraph_basic-bg.html.twig' %}
+{% endif %}
+
+
+{% if enable_slider == 'On' %}
+
+<script>
+  const swiperItem = new Swiper('#{{ uniqueName }}{{ paragraph.id() }} .swiperItem', {
+    slidesPerView: 1,
+    spaceBetween: 15,
+    autoHeight: true,
+    navigation: {
+      nextEl: "#{{ uniqueName }}{{ paragraph.id() }} .swiper-button-next",
+      prevEl: "#{{ uniqueName }}{{ paragraph.id() }} .swiper-button-prev",
+    },
+    pagination: {
+      el: "#{{ uniqueName }}{{ paragraph.id() }} .swiper-pagination",
+      clickable: true,
+    },
+    breakpoints: {
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 30,
+        },
+        992: {
+          slidesPerView: {{ itemPerRow }},
+          spaceBetween: 30,
+        },
+      },
+  });
+
+
+</script>
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

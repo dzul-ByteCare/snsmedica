@@ -1,0 +1,56 @@
+<div class="partner-list-wrapper">
+	<div class="front">
+		<div class="image">{{ content.field_image.0 }}</div>
+		<div class="title">{{ node.label() }}</div>
+		<div class="contacts">
+			<div class="address">{{ content.field_address.0 }}</div>
+			{% if content.field_email.0 or content.field_telephone.0 %}
+			<div class="contact-detail">
+				{% if content.field_email.0 %}
+					<div class="email">
+						<div class="label">{{ 'E' }}</div>
+						<a href="mailto:{{ content.field_email.0 }}">{{ content.field_email.0 }}</a>
+					</div>
+				{% endif %}
+				{% if content.field_telephone.0 %}
+					{% for key, item in content.field_telephone if key|first != "#" %}
+						<div class="telephone">
+							<div class="label">{{ 'T' }}</div>
+							<a href="tel:{{ item['#context'].value|replace({ ' ' : '', '-' : '' }) }}">{{ item }}</a>
+						</div>
+					{% endfor %}
+				{% endif %}
+			</div>
+			{% endif %}
+			{% if content.field_waze_link.0 or content.field_google_map_link.0 %}
+			<div class="direction d-flex">
+				{% if content.field_waze_link.0 %}
+					<div class="waze">
+						<a href="{{ node.field_waze_link.0.url }}" {{ content.field_waze_link.0['#options'].external == 'true' ? 'target="_blank"' }}></a>
+					</div>
+				{% endif %}
+				{% if content.field_google_map_link.0 %}
+					<div class="gmap">
+						<a href="{{ node.field_google_map_link.0.url }}" {{ content.field_google_map_link.0['#options'].external == 'true' ? 'target="_blank"' }}></a>
+					</div>
+				{% endif %}
+			</div>
+			{% endif %}
+		</div>
+		<div class="trigger">
+			<button class="btn-os btn-os-1">{{'Book An Appointment'|t}}</button>
+		</div>
+	</div>
+	<div class="back">
+		<div class="title">{{ node.label() }}</div>
+		<div class="description">{{ content.body.0 }}</div>
+		<div class="contacts">
+			<a class="btn-os" href="/node/3">{{'Contact Us'|t}}</a>
+		</div>
+		<hr>
+		<div class="whatsapp">
+			<a href="https://wa.me/message/JP7BEJLENOWFF1" class="btn-whatsapp" target="_blank">{{'Whatsapp Here!'|t}}</a>
+		</div>
+		<a class="btn-close"></a>
+	</div>
+</div>

@@ -1,0 +1,32 @@
+/*	---------------------------------------------
+
+	Melonism B5
+	Powered by OrangeSoft Sdn Bhd
+	Designed by OrangeSoft Sdn Bhd
+
+	Responsive options:
+	@media (min-width: 576px) {}
+	@media (min-width: 768px) {}
+	@media (min-width: 992px) {}
+	@media (min-width: 1200px) {}
+	@media (max-width: 1199px) {}
+	@media (max-width: 991px) {}
+	@media (max-width: 767px) {}
+	@media (max-width: 575px) {}
+
+	--------------------------------------------- */
+
+/*	Font Face
+	font-family: 'Lato', sans-serif;
+	--------------------------------------------- */
+	@import url('font.css');
+
+/*	Import all css files at here
+	--------------------------------------------- */
+	@import url('root.css');
+	@import url('default.css');
+	@import url('general.css');
+	@import url('paragraph.css');
+	@import url('views.css');
+	@import url('pages.css');
+	

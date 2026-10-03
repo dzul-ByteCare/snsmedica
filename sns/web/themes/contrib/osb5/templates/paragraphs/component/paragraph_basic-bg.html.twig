@@ -1,0 +1,9 @@
+{% if bgImage %}
+<div class="bg-img position-absolute top-0 start-0 w-100 h-100 overflow-hidden">
+  <img src="{{ file_url(bgImage['#item'].entity.uri.value) }}" alt="{{ bgImage['#item'].alt }}" class="w-100 h-100">
+</div>
+{% endif %}
+
+{% if bgColor %}
+<div class="bg-color position-absolute top-0 start-0 w-100 h-100"></div>
+{% endif %}

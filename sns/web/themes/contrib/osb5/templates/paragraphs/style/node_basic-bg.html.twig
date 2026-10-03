@@ -1,0 +1,23 @@
+{% if bgColor %}
+  <style>
+  #para-{{ para['#paragraph'].id.value }} .bg-color {
+    background-color: {{ bgColor }};
+  }
+  {% if (bgImage or bgImage2) and bgColor %}
+  #para-{{ para['#paragraph'].id.value }} .bg-color {
+    mix-blend-mode: multiply;
+  }
+  {% endif %}
+  </style>
+{% elseif bgColor2 %}
+  <style>
+  #para-{{ para['#paragraph'].id.value }} .bg-color {
+    background-color: {{ bgColor2 }};
+  }
+  {% if (bgImage or bgImage2) and bgColor2 %}
+  #para-{{ para['#paragraph'].id.value }} .bg-color {
+    mix-blend-mode: multiply;
+  }
+  {% endif %}
+  </style>
+{% endif %}

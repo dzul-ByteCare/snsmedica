@@ -1,0 +1,8 @@
+# Keep the Docker build context small — never send these to the daemon:
+.git
+.gitignore
+.gitattributes
+bxjtnntsrg_*.sql
+index.php
+skill-SnsMedica.md
+sns/web/sites/default/settings.local.php
