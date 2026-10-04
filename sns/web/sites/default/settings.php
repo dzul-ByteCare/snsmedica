@@ -733,13 +733,18 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
   $settings['trusted_host_patterns'] = [
     '^snsmedica\.com$',
     '^www\.snsmedica\.com$',
+    '^snsmedica\.com\.my$',
+    '^www\.snsmedica\.com\.my$',
     '^localhost$',
     '^127\.0\.0\.1$'
   ];
-  // Production (Coolify): set DRUPAL_TRUSTED_HOST to the live domain,
-  // e.g. DRUPAL_TRUSTED_HOST=snsmedica.com
-  if (getenv('DRUPAL_TRUSTED_HOST')) {
-    $settings['trusted_host_patterns'][] = '^' . preg_quote(getenv('DRUPAL_TRUSTED_HOST'), '/') . '$';
+  // Production (Coolify): DRUPAL_TRUSTED_HOST accepts one domain or a
+  // comma-separated list, e.g. DRUPAL_TRUSTED_HOST=example.com,abc.sslip.io
+  $drupal_trusted_hosts = getenv('DRUPAL_TRUSTED_HOST');
+  if ($drupal_trusted_hosts) {
+    foreach (array_filter(array_map('trim', explode(',', $drupal_trusted_hosts))) as $drupal_trusted_host) {
+      $settings['trusted_host_patterns'][] = '^' . preg_quote($drupal_trusted_host, '/') . '$';
+    }
   }
 
 /**
